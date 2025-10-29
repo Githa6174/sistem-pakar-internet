@@ -57,3 +57,114 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+# Sistem Pakar Diagnosa Masalah Internet
+
+Sebuah aplikasi web sederhana yang dibangun dengan Laravel 11 untuk membantu pengguna mendiagnosis masalah koneksi internet di rumah mereka. Sistem ini menggunakan alur *Rule-Based* (Sistem Pakar) untuk mengajukan serangkaian pertanyaan dan memberikan diagnosis serta solusi yang mungkin.
+
+![Contoh Tampilan Aplikasi](httpsGENDUMMYURL/sistem/pakar/internet/screenshot/app.png)
+
+## 🚀 Fitur Utama
+
+* **Alur Logika Bertingkat:** Menggunakan *decision tree* dengan 10 pertanyaan untuk mengisolasi masalah.
+* **Diagnosis Praktis:** Memberikan salah satu dari 10 diagnosis akhir yang spesifik, mulai dari masalah perangkat hingga gangguan ISP.
+* **Frontend Modern:** Tampilan yang bersih dan responsif menggunakan Tailwind CSS v4.
+* **Basis Pengetahuan Fleksibel:** Semua pertanyaan, opsi, dan diagnosis disimpan dalam database SQLite, sehingga mudah untuk diperbarui atau diperluas.
+
+---
+
+## 🛠️ Tumpukan Teknologi (Tech Stack)
+
+* **Backend:** PHP 8.2+ / Laravel 11
+* **Frontend:** Tailwind CSS v4 (via Vite)
+* **Database:** SQLite (Berbasis file, tidak perlu server DB)
+* **Tipe Sistem:** Rule-Based Decision Support System (DSS)
+* **Lingkungan Lokal:** Dibuat dan diuji menggunakan **FlyEnv**
+
+---
+
+## 🚦 Instalasi dan Persiapan (Lokal)
+
+Panduan ini mengasumsikan Anda menggunakan lingkungan seperti FlyEnv, XAMPP, atau Laragon.
+
+### 1. Prasyarat PHP
+
+Pastikan driver PHP untuk SQLite sudah aktif di lingkungan Anda (misalnya: FlyEnv).
+Buka file `php.ini` Anda dan pastikan dua baris ini **tidak** diawali dengan tanda titik-koma (`;`):
+
+```ini
+extension=pdo_sqlite
+extension=sqlite3
+```
+*(Jangan lupa restart layanan PHP Anda setelah mengubah ini!)*
+
+### 2. Klona (Clone) Repositori
+
+```bash
+git clone [https://github.com/NAMA_ANDA/NAMA_REPOSitori_ANDA.git](https://github.com/NAMA_ANDA/NAMA_REPOSitori_ANDA.git)
+cd NAMA_REPOSitori_ANDA
+```
+
+### 3. Instalasi Backend (Composer)
+
+```bash
+# Salin file .env.example menjadi .env
+cp .env.example .env
+
+# Hapus baris DB_HOST, DB_PORT, dll. dan pastikan hanya ada:
+# DB_CONNECTION=sqlite
+# ... (Edit file .env Anda sekarang) ...
+
+# Instal dependensi PHP
+composer install
+```
+
+### 4. Instalasi Frontend (NPM/Node.js)
+
+```bash
+# Instal semua paket dari package.json
+npm install
+```
+
+### 5. Setup Aplikasi (Laravel)
+
+```bash
+# Buat kunci aplikasi
+php artisan key:generate
+
+# Buat file database SQLite yang kosong
+touch database/database.sqlite
+
+# Jalankan migrasi (membuat tabel) dan seeder (mengisi aturan)
+php artisan migrate --seed
+```
+
+### 6. Jalankan Server!
+
+Anda perlu menjalankan dua server di dua terminal terpisah:
+
+**Di Terminal 1 (untuk Frontend/Vite):**
+```bash
+npm run dev
+```
+
+**Di Terminal 2 (untuk Backend/Laravel):**
+```bash
+php artisan serve
+```
+
+Buka aplikasi di `http://127.0.0.1:8000`.
+
+---
+
+## 🏛️ Struktur Basis Pengetahuan
+
+Logika sistem pakar ini diatur oleh tiga tabel database utama:
+
+1.  **`questions`**: Menyimpan teks untuk setiap pertanyaan.
+2.  **`diagnoses`**: Menyimpan judul dan deskripsi untuk setiap hasil diagnosis akhir.
+3.  **`options`**: Tabel penghubung utama. Setiap baris mewakili pilihan jawaban dan berisi:
+    * `question_id`: Pertanyaan induk dari opsi ini.
+    * `text`: Teks jawaban (misal: "Ya" atau "Tidak").
+    * `next_question_id`: (Opsional) ID pertanyaan berikutnya jika opsi ini dipilih.
+    * `diagnosis_id`: (Opsional) ID diagnosis akhir jika alur berhenti di sini.
