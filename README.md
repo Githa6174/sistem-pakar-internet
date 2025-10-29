@@ -62,7 +62,6 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 
 Sebuah aplikasi web sederhana yang dibangun dengan Laravel 11 untuk membantu pengguna mendiagnosis masalah koneksi internet di rumah mereka. Sistem ini menggunakan alur *Rule-Based* (Sistem Pakar) untuk mengajukan serangkaian pertanyaan dan memberikan diagnosis serta solusi yang mungkin.
 
-![Contoh Tampilan Aplikasi](httpsGENDUMMYURL/sistem/pakar/internet/screenshot/app.png)
 
 ## 🚀 Fitur Utama
 
