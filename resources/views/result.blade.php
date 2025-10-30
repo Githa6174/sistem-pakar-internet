@@ -10,7 +10,7 @@
             {{ $diagnosis->description }}
         </p>
         <div class="mt-10">
-            <a href="{{ url('/') }}" class="px-10 py-3 font-semibold text-white bg-blue-600 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-all duration-300">
+            <a href="{{ url('/') }}" class="px-10 py-3 font-semibold text-white bg-indigo-600 rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-all duration-300">
                 &larr; Mulai Lagi
             </a>
         </div>

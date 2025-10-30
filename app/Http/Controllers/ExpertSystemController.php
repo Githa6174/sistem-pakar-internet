@@ -7,7 +7,11 @@ use App\Models\Diagnosis;
 use Illuminate\Http\Request;
 
 class ExpertSystemController extends Controller
-{
+{   
+    public function index() {
+        return view('index');
+    }
+    
     public function start() {
         $question = Question::with('options')->find(1);
         return view('question', ['question' => $question]);
